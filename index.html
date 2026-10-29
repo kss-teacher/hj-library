@@ -1,4 +1,4 @@
-<html lang="ko"><head><base href="https://1012051377-atari-embeds.googleusercontent.com/embeds/4c8a3211fd76886a93ab92bca3a50520/inner-frame-minified.html?jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.ko.mFcfXp-Xjhk.O%2Fd%3D1%2Frs%3DAHpOoo_vtG31uUKxcGbM9-GB66bWMvgXpg%2Fm%3D__features__" target="_blank">
+<html lang="ko"><head><base href="https://1453674598-atari-embeds.googleusercontent.com/embeds/4c8a3211fd76886a93ab92bca3a50520/inner-frame-minified.html?jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.ko.mFcfXp-Xjhk.O%2Fd%3D1%2Frs%3DAHpOoo_vtG31uUKxcGbM9-GB66bWMvgXpg%2Fm%3D__features__" target="_blank">
       <script>
         (function() {
           // Listen during capturing phase to intercept before <base target="_blank"> takes effect.
@@ -3157,7 +3157,12 @@
       }
     }
 
+    // 관리자 모드일 때만 구글 시트 연동 팝업이 열리도록 철저한 권한 검증 추가
     function openGasConfigModal() {
+      if (!isAdmin) {
+        showToast('구글 시트 연동 관리는 관리자 모드에서만 열 수 있습니다.');
+        return;
+      }
       document.getElementById('gasUrlInput').value = gasWebAppUrl;
       document.getElementById('gasConfigModal').classList.remove('hidden');
     }
@@ -4682,6 +4687,12 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      // 1. 모바일 최초 접속 시 구글 시트 연동 모달이 절대 자동으로 뜨지 않도록 강제 은닉 보장
+      const gasModal = document.getElementById('gasConfigModal');
+      if (gasModal) {
+        gasModal.classList.add('hidden');
+      }
+
       setupDatePickers();
 
       try {
